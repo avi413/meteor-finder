@@ -19,34 +19,34 @@ const CardList: React.FC<Props> = ({ searchedMeteors, mass, filter, year }) => {
         )
     return (
         <>
-        {filteredSearchedMeteors.length === 0 && <p>the mass was not found, jumping to first-year where there is a mass that fits the criteria</p>}
-        <ul className='cards'>
-            {filteredSearchedMeteors.length > 0 ?
-                filteredSearchedMeteors
-                    .map((meteor: any) => {
-                        return (
-                            <li className='card' key={meteor.id}>
-                                <div className='card__info'>
-                                    <h3 className='card__title'>{`Meteor name: ${meteor.name}`}</h3>
-                                    <h4 className='card__title'>{`Meteor mass: ${meteor.mass}`}</h4>
-                                    <span className='card__date'>{`Meteor recclass: ${meteor.recclass}`}</span>
-                                </div>
-                            </li>
-                        );
-                    })
-                :
-                firsElement &&
-                <li className='card' key={firsElement.id}>
-                    <div className='card__info'>
-                    <h3 className='card__title'>{`Meteor year lend: ${firsElement.year.split('-')[0]}`}</h3>
-                        <h3 className='card__title'>{`Meteor name: ${firsElement.name}`}</h3>
-                        <h4 className='card__title'>{`Meteor mass: ${firsElement.mass}`}</h4>
-                        <span className='card__date'>{`Meteor recclass: ${firsElement.recclass}`}</span>
-                    </div>
-                </li>
-            }
-        </ul>
-        </>   
+            {filteredSearchedMeteors.length === 0 && <p>the mass was not found, jumping to first-year where there is a mass that fits the criteria</p>}
+            <ul className='cards'>
+                {filteredSearchedMeteors.length > 0 ?
+                    filteredSearchedMeteors
+                        .map((meteor: any) => {
+                            return (
+                                <li className='card' key={meteor.id}>
+                                    <div className='card__info'>
+                                        <h3 className='card__title'>{`Meteor name: ${meteor.name}`}</h3>
+                                        <h4 className='card__title'>{`Meteor mass: ${meteor.mass}`}</h4>
+                                        <span className='card__date'>{`Meteor recclass: ${meteor.recclass}`}</span>
+                                    </div>
+                                </li>
+                            );
+                        })
+                    :
+                    firsElement &&
+                    <li className='card' key={firsElement.id}>
+                        <div className='card__info'>
+                            <h3 className='card__title'>{`Meteor year lend: ${firsElement.year.split('-')[0]}`}</h3>
+                            <h3 className='card__title'>{`Meteor name: ${firsElement.name}`}</h3>
+                            <h4 className='card__title'>{`Meteor mass: ${firsElement.mass}`}</h4>
+                            <span className='card__date'>{`Meteor recclass: ${firsElement.recclass}`}</span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </>
     )
 }
 

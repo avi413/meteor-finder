@@ -8,7 +8,7 @@ interface Props {
     setYear: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
-const SuggestionsList: React.FC<Props> = ({ onClick, years, show, className,setYear }) =>  {
+const SuggestionsList: React.FC<Props> = ({ onClick, years, show, className, setYear }) => {
     return (
         show && <div className={`${className}`}>
             <ul className='suggestion-list'>
@@ -17,7 +17,7 @@ const SuggestionsList: React.FC<Props> = ({ onClick, years, show, className,setY
                         <li
                             className='suggestions__item'
                             key={data}
-                            onClick={()=> {onClick(data); setYear(data)}}
+                            onClick={() => { onClick(data); setYear(data) }}
                         >
                             {data}
                         </li>

@@ -6,7 +6,7 @@ interface Props {
     placeholder: string;
     buttonTitle: string;
     value: any;
-    setValue:  React.Dispatch<React.SetStateAction<number | undefined>>;
+    setValue: React.Dispatch<React.SetStateAction<number | undefined>>;
     handleSubmit: (e: any) => void;
 }
 
@@ -22,7 +22,7 @@ const InputField: React.FC<Props> = ({ handleSubmit, hendleChange, placeholder, 
                 placeholder={placeholder}
                 type='number'
                 value={value}
-                
+
             />
             <button
                 className='input__submit'

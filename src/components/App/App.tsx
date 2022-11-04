@@ -7,12 +7,12 @@ import CardList from '../CardList/CardList';
 
 const App: React.FC = () => {
   const [years, setYears] = useState<number>();
-  const [mass, setMass] = useState<number>();
+  const [mass, setMass] = useState<number | undefined>();
   const [year, setYear] = useState<number>();
   const [showYear, setShowYear] = useState(true);
   const [searchedMeteors, setSearchedMeteors] = useState<any[]>([]);
   const [filter, setFilter] = useState(false);
-  
+
   useEffect(() => {
     const localMeteorList: string | null = localStorage.getItem('meteor-data');
     const set = new Set();
@@ -67,12 +67,10 @@ const App: React.FC = () => {
     );
   }
 
-
   const handleSuggestionsListClick = (year: number | undefined) => {
     setShowYear(!showYear);
     setYear(year);
     const data = JSON.parse(localStorage.getItem('meteor-data') || '{}');
-
     const filteredData = data.filter((item: any) =>
       item.year.includes(year)
     );
@@ -92,7 +90,13 @@ const App: React.FC = () => {
             value={year || ''}
             setValue={setYear}
           />
-          <SuggestionsList years={years} onClick={handleSuggestionsListClick} className={'suggestions'} setYear={setYear} show={showYear} />
+          <SuggestionsList
+            years={years}
+            onClick={handleSuggestionsListClick}
+            className={'suggestions'}
+            setYear={setYear}
+            show={showYear}
+          />
         </div>
         <InputField
           hendleChange={hendleMassChange}
@@ -103,7 +107,13 @@ const App: React.FC = () => {
           setValue={setMass || ''}
         />
       </div>
-      <CardList searchedMeteors={searchedMeteors} mass={mass} setFilter={setFilter} filter={filter} year={year || undefined}/>
+      <CardList
+        searchedMeteors={searchedMeteors}
+        mass={mass}
+        setFilter={setFilter}
+        filter={filter}
+        year={year || undefined}
+      />
     </div>
   );
 };
