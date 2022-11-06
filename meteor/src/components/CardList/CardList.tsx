@@ -10,15 +10,16 @@ interface Props {
 
 const CardList: React.FC<Props> = ({ searchedMeteors, mass, filter }) => {
     const data = JSON.parse(localStorage.getItem('meteor-data') || '{}');
-    const firsElement = data.length > 0 && data.find((element: any) => element.mass == mass);
+    const firsElement = data.find((element: any) => element.mass == mass);
     const filteredSearchedMeteors = searchedMeteors
         .filter(
             (item: any) =>
                 filter && mass ? item.mass == mass : item.mass > 0
         )
+
     return (
         <>
-            {filteredSearchedMeteors.length === 0 && filter && <p>the mass was not found, jumping to first-year where there is a mass that fits the criteria</p>}
+            {filteredSearchedMeteors.length === 0 && <p>the mass was not found, jumping to first-year where there is a mass that fits the criteria</p>}
             <ul className='cards'>
                 {filteredSearchedMeteors.length > 0 ?
                     filteredSearchedMeteors
@@ -34,7 +35,7 @@ const CardList: React.FC<Props> = ({ searchedMeteors, mass, filter }) => {
                             );
                         })
                     :
-                    firsElement && filter  && 
+                    filter && firsElement &&
                     <li className='card' key={firsElement.id}>
                         <div className='card__info'>
                             <h3 className='card__title'>{`Meteor year lend: ${firsElement.year.split('-')[0]}`}</h3>
