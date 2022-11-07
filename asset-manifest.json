@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/meteor-finder/static/css/main.ed56f88f.css",
+    "main.js": "/meteor-finder/static/js/main.d21ae745.js",
+    "index.html": "/meteor-finder/index.html",
+    "main.ed56f88f.css.map": "/meteor-finder/static/css/main.ed56f88f.css.map",
+    "main.d21ae745.js.map": "/meteor-finder/static/js/main.d21ae745.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ed56f88f.css",
+    "static/js/main.d21ae745.js"
+  ]
+}
