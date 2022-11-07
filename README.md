@@ -15,6 +15,10 @@
 
 
 
+**Demo**
+
+* [Link to the project in Demo](https://avi413.github.io/meteor-finder)
+
 ## Running local
 
 To run the site loacly, run the following command
