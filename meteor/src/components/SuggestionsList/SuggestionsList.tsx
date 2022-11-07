@@ -5,7 +5,7 @@ interface Props {
     className: string;
     show: any;
     onClick: (year: number) => void;
-    setYear: React.Dispatch<React.SetStateAction<number | undefined>>;
+    setYear: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const SuggestionsList: React.FC<Props> = ({ onClick, years, show, className, setYear }) => {
