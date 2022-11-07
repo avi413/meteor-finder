@@ -6,6 +6,7 @@
   align-items: center;
   background-color: azure;
 }
+
 .inputs-container {
   display: flex;
   align-items: flex-start;
@@ -14,6 +15,15 @@
 
 .search {
   display: grid;
+}
+
+@media screen and  (max-width: 650px) {
+  .inputs-container {
+    flex-direction: column;
+  }
+  .App {
+    height: 100%;
+  }
 }
 
 

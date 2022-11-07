@@ -15,3 +15,9 @@
     border: 1px solid black;
 }
 
+@media screen and  (max-width: 650px) {
+    .cards {
+        grid-template-columns: 100%;
+    }
+}
+
