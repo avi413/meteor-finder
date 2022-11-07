@@ -3,7 +3,7 @@ import './CardList.css';
 
 interface Props {
     searchedMeteors?: any;
-    mass: number | undefined;
+    mass: number ;
     setFilter: React.Dispatch<React.SetStateAction<boolean>>;
     filter: boolean;
 }

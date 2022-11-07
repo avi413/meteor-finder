@@ -6,9 +6,9 @@ import SuggestionsList from '../SuggestionsList/SuggestionsList';
 import CardList from '../CardList/CardList';
 
 const App: React.FC = () => {
-  const [years, setYears] = useState<number>();
-  const [mass, setMass] = useState<number | undefined>();
-  const [year, setYear] = useState<number>();
+  const [years, setYears] = useState<string>('');
+  const [mass, setMass] = useState<string>('');
+  const [year, setYear] = useState<string>('');
   const [showYear, setShowYear] = useState(true);
   const [searchedMeteors, setSearchedMeteors] = useState<any[]>([]);
   const [filter, setFilter] = useState(false);
@@ -42,7 +42,7 @@ const App: React.FC = () => {
   }
 
   const hendleMassChange = (e: any) => {
-    e.target.value.length > 0 ? setMass(parseInt(e.target.value)) : setMass(undefined);
+    e.target.value.length > 0 ? setMass(e.target.value) : setMass('');
     setFilter(false);
   }
 
@@ -53,9 +53,9 @@ const App: React.FC = () => {
   }
 
   const hendleYearChange = (e: any) => {
-    setYear(parseInt(e.target.value));
+    setYear(e.target.value);
     setFilter(false);
-    setMass(undefined);
+    setMass('');
     e.target.value.length > 0 ? setShowYear(true) : setShowYear(false);
     let year: string = e.target.value;
     const data = JSON.parse(localStorage.getItem('meteor-years') || '{}');
@@ -69,7 +69,7 @@ const App: React.FC = () => {
     );
   }
 
-  const handleSuggestionsListClick = (year: number | undefined) => {
+  const handleSuggestionsListClick = (year: string) => {
     setShowYear(!showYear);
     setYear(year);
     const data = JSON.parse(localStorage.getItem('meteor-data') || '{}');
@@ -96,7 +96,7 @@ const App: React.FC = () => {
             years={years}
             onClick={handleSuggestionsListClick}
             className={'suggestions'}
-            setYear={setYear}
+            setYear={setYear || ''}
             show={showYear}
           />
         </div>
@@ -106,13 +106,13 @@ const App: React.FC = () => {
           buttonTitle='filter'
           handleSubmit={handleFilterSubmit}
           value={mass}
-          setValue={setMass || ''}
+          setValue={setMass}
         />
       </div>
       <CardList
         searchedMeteors={searchedMeteors}
         mass={mass}
-        setFilter={setFilter}
+        setFilter={setFilter || ''}
         filter={filter}
       />
     </div>

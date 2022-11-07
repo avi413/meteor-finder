@@ -6,7 +6,7 @@ interface Props {
     placeholder: string;
     buttonTitle: string;
     value: any;
-    setValue: React.Dispatch<React.SetStateAction<number | undefined>>;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
     handleSubmit: (e: any) => void;
 }
 
