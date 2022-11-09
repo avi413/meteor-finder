@@ -1,4 +1,4 @@
-"# Meteor finder" 
+# Meteor finder
 
 **Functionality description**
 
@@ -9,7 +9,7 @@
 **Technologies used**
 
 * HTML
-* JS
+* TS
 * css
 * React JS
 
