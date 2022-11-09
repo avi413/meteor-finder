@@ -1,44 +1,28 @@
 import React from 'react';
 import './CardList.css';
 
-interface Geolocation {
-    type: "string";
-    coordinates: [number, number];
-}
-
-interface Meteor {
-    name: string;
-    id: string;
-    nametype: string;
-    recclass: string;
-    mass: string;
-    fall: string;
-    year: string;
-    reclat: string;
-    reclong: string;
-    geolocation: Geolocation;
-}
 interface Props {
-    searchedMeteors: Meteor[];
+    searchedMeteors?: any;
     mass: string;
-    year: string;
+    setFilter: React.Dispatch<React.SetStateAction<boolean>>;
+    filter: boolean;
 }
 
-const CardList: React.FC<Props> = ({ searchedMeteors, mass, year }) => {
-
-    const firsElement = searchedMeteors.length > 0 && searchedMeteors.find((element: Meteor) => element.mass === mass);
-
-
+const CardList: React.FC<Props> = ({ searchedMeteors, mass, filter }) => {
+    const data = JSON.parse(localStorage.getItem('meteor-data') || '{}');
+    const firsElement = data.length > 0 && data.find((element: any) => element.mass === mass);
+    const filteredSearchedMeteors = searchedMeteors
+        .filter(
+            (item: any) =>
+                filter && mass ? item.mass == mass : item.mass > 0
+        )
     return (
         <>
-            {searchedMeteors.length === 0 &&
-                mass.length > 0 &&
-                <p>the mass was not found, jumping to first-year where there is a mass that fits the criteria</p>
-            }
+            {filteredSearchedMeteors.length === 0 && filter && <p>the mass was not found, jumping to first-year where there is a mass that fits the criteria</p>}
             <ul className='cards'>
-                {year.length === 4 ?
-                    searchedMeteors
-                        .map((meteor: Meteor) => {
+                {filteredSearchedMeteors.length > 0 ?
+                    filteredSearchedMeteors
+                        .map((meteor: any) => {
                             return (
                                 <li className='card' key={meteor.id}>
                                     <div className='card__info'>
@@ -50,7 +34,7 @@ const CardList: React.FC<Props> = ({ searchedMeteors, mass, year }) => {
                             );
                         })
                     :
-                    firsElement &&
+                    firsElement && filter  && 
                     <li className='card' key={firsElement.id}>
                         <div className='card__info'>
                             <h3 className='card__title'>{`Meteor year lend: ${firsElement.year.split('-')[0]}`}</h3>
