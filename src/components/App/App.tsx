@@ -1,79 +1,103 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
 import { getMeteors } from '../../utils/MeteorDataset';
 import InputField from '../InputField/InputField';
 import SuggestionsList from '../SuggestionsList/SuggestionsList';
 import CardList from '../CardList/CardList';
 
+import './App.css';
+
+interface Geolocation {
+  type: "string";
+  coordinates: [number, number];
+}
+interface Meteor {
+  name: string;
+  id: string;
+  nametype: string;
+  recclass: string;
+  mass: string;
+  fall: string;
+  year: string;
+  reclat: string;
+  reclong: string;
+  geolocation: Geolocation;
+}
+
 const App: React.FC = () => {
-  const [years, setYears] = useState<string>('');
+  //Data for years aoutocomplete list 
+  const [years, setYears] = useState<string[]>(['']);
+  //All meteors data
+  const [searchedMeteors, setSearchedMeteors] = useState<Meteor[]>([]);
+  //mass input
   const [mass, setMass] = useState<string>('');
+  //year input
   const [year, setYear] = useState<string>('');
-  const [showYear, setShowYear] = useState(true);
-  const [searchedMeteors, setSearchedMeteors] = useState<any[]>([]);
-  const [filter, setFilter] = useState(false);
+  //flag show list years or not
+  const [isShowList, setIsShowList] = useState(false);
+
 
   useEffect(() => {
-    const localMeteorList: string | null = localStorage.getItem('meteor-data');
-    const set = new Set();
-    !localMeteorList &&
-      getMeteors()
-        .then((data) => {
-          //remove data withut year
-          const filteredData = data.filter((item: any) =>
-            item.year
-          )
-          //save initial data on local storage to reduce the number of network calls
-          localStorage.setItem('meteor-data', JSON.stringify(filteredData));
-          //save separate set for unique year for autocomplete
-          filteredData.forEach((item: any) => {
-            set.add(item.year.split('-')[0])
-          });
-          localStorage.setItem('meteor-years', JSON.stringify(Array.from(set)));
-        })
-        .catch((e) => {
-          console.log(e);
+    const yearsSet = new Set<string>();
+    getMeteors()
+      .then((data) => {
+        //remove data withut year
+        const filteredData: [Meteor] = data.filter((item: Meteor) =>
+          item.year
+        )
+        filteredData.forEach((item: any) => {
+          yearsSet.add(item.year.split('-')[0])
         });
+
+        setSearchedMeteors(filteredData);
+
+        let yearsArray = Array.from(yearsSet);
+        setYears(yearsArray)
+
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   const handleFilterSubmit = (e: any) => {
     e.preventDefault();
-    setFilter(true);
+    return searchedMeteors
+    .filter(
+        (item: Meteor) =>
+            // if no filter return all meteors
+            mass.length > 0 ? item.mass === mass : item
+    )
   }
 
-  const hendleMassChange = (e: any) => {
+  const handleMassChange = (e: any) => {
     e.target.value.length > 0 ? setMass(e.target.value) : setMass('');
-    setFilter(false);
   }
 
   const handleSearchSubmit = (e: any) => {
     e.preventDefault();
     handleSuggestionsListClick(year);
-    setShowYear(false);
+    setIsShowList(false);
   }
 
-  const hendleYearChange = (e: any) => {
+  const handleYearChange = (e: any) => {
     setYear(e.target.value);
-    setFilter(false);
     setMass('');
-    e.target.value.length > 0 ? setShowYear(true) : setShowYear(false);
+    e.target.value.length > 0 ? setIsShowList(true) : setIsShowList(false);
     let year: string = e.target.value;
-    const data = JSON.parse(localStorage.getItem('meteor-years') || '{}');
-    setYears(filterStartsWith(year, data));
+    setYears(filterStartsWith(year, years));
   }
 
-  const filterStartsWith = (term: string, data: any) => {
-    term.length > 0 ? setShowYear(true) : setShowYear(false);
-    return data.filter((item: any) =>
+  const filterStartsWith = (term: string, data: string[]) => {
+    term.length > 0 ? setIsShowList(true) : setIsShowList(false);
+    return data.filter((item: string) =>
       item.startsWith(term) ? item : ''
     );
   }
 
   const handleSuggestionsListClick = (year: string) => {
-    setShowYear(!showYear);
+    setIsShowList(!isShowList);
     setYear(year);
-    const data = JSON.parse(localStorage.getItem('meteor-data') || '{}');
-    const filteredData = data.filter((item: any) =>
+    const filteredData = searchedMeteors.filter((item: Meteor) =>
       item.year.includes(year)
     );
     setSearchedMeteors(filteredData)
@@ -85,7 +109,7 @@ const App: React.FC = () => {
       <div className='inputs-container'>
         <div className='search'>
           <InputField
-            hendleChange={hendleYearChange}
+            hendleChange={handleYearChange}
             placeholder='Enter year...'
             buttonTitle='search'
             handleSubmit={handleSearchSubmit}
@@ -97,11 +121,11 @@ const App: React.FC = () => {
             onClick={handleSuggestionsListClick}
             className={'suggestions'}
             setYear={setYear || ''}
-            show={showYear}
+            show={isShowList}
           />
         </div>
         <InputField
-          hendleChange={hendleMassChange}
+          hendleChange={handleMassChange}
           placeholder='Enter mass...'
           buttonTitle='filter'
           handleSubmit={handleFilterSubmit}
@@ -112,8 +136,7 @@ const App: React.FC = () => {
       <CardList
         searchedMeteors={searchedMeteors}
         mass={mass}
-        setFilter={setFilter || ''}
-        filter={filter}
+        year={year}
       />
     </div>
   );
